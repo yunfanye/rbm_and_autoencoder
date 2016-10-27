@@ -73,13 +73,15 @@ def visualize(M, N, x, fig_name):
     plt.savefig(fig_name)
     plt.gcf().clear()
 
+np.random.seed(10807)
+
 train_images, train_labels = load_data("digitstrain.txt")
 valid_images, valid_labels = load_data("digitsvalid.txt")
 
 for k in [5, 10, 20]:
     num_hidden_units = 100
-    epochs = 10000
-    learn_rate = 0.1
+    epochs = 30000
+    learn_rate = 0.2
 
     variance1 = math.sqrt(6.0) / (784.0 + num_hidden_units)
     W1 = weight_variables(num_hidden_units, 784, variance1)
@@ -98,7 +100,8 @@ for k in [5, 10, 20]:
         images = sample(images, 784)
         h, h_tilde, x_tilde, x_bin = CD_k(images, k)
         if epoch % interval == 0:
-            loss = np.sum(cross_entropy(x_tilde, images)) / num_examples
+            _, _, x_train, _ = CD_k(train_images, k)
+            loss = np.sum(cross_entropy(x_train, train_images)) / train_images.shape[1]
             train_entropy[record] = loss
             _, _, x_valid, _ = CD_k(valid_images, k)
             loss = np.sum(cross_entropy(x_valid, valid_images)) / valid_images.shape[1]
@@ -113,5 +116,5 @@ for k in [5, 10, 20]:
         b1 += learn_rate * b1_grad
         c1 += learn_rate * c1_grad
 
-    plot_entropy(train_entropy, valid_entropy, "train", "valid", "(b) entropy_{0}.png".format(k))
-    visualize(10, 10, W1.T, "(b) visualization of parameters_{0}.png".format(k))
+    plot_entropy(train_entropy, valid_entropy, "train", "valid", "b entropy_{0}.png".format(k))
+    visualize(10, 10, W1.T, "b visualization of parameters_{0}.png".format(k))

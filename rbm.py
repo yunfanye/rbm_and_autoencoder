@@ -71,12 +71,14 @@ def visualize(M, N, x, fig_name):
 	# plt.show()
 	plt.savefig(fig_name)
 
+np.random.seed(10807)
+
 train_images, train_labels = load_data("digitstrain.txt")
 valid_images, valid_labels = load_data("digitsvalid.txt")
 
 num_hidden_units = 100
 epochs = 20000
-learn_rate = 0.1
+learn_rate = 0.2
 k = 1
 
 variance1 = math.sqrt(6.0) / (784.0 + num_hidden_units)
@@ -86,7 +88,7 @@ c1 = bias_variables(784, 1, 0)
 
 num_examples = 50
 images_ones = np.ones((num_examples, 1))
-interval = 500
+interval = 1000
 train_entropy = [0] * (epochs / interval)
 valid_entropy = [0] * (epochs / interval) 
 record = 0
@@ -96,8 +98,8 @@ for epoch in range(0, epochs):
     images = sample(images, 784)
     h, h_tilde, x_tilde, x_bin = CD_k(images, k)
     if epoch % interval == 0:
-        loss = np.sum(cross_entropy(x_tilde, images)) / num_examples
-        print loss
+        _, _, x_train, _ = CD_k(train_images, k)
+        loss = np.sum(cross_entropy(x_train, train_images)) / train_images.shape[1]
         train_entropy[record] = loss
         _, _, x_valid, _ = CD_k(valid_images, k)
         loss = np.sum(cross_entropy(x_valid, valid_images)) / valid_images.shape[1]

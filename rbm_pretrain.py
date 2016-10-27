@@ -90,14 +90,17 @@ def evaluate(y, truth):
     error = error_rate(p, truth)
     return loss, error
 
+
+np.random.seed(10807)
+
 train_images, train_labels = load_data("digitstrain.txt")
 valid_images, valid_labels = load_data("digitsvalid.txt")
 test_images, test_labels = load_data("digitstest.txt")
 
 num_hidden_units = 100
-epochs = 20000
-learn_rate = 0.1
-k = 1
+epochs = 30000
+learn_rate = 0.2
+k = 5
 
 variance1 = math.sqrt(6.0) / (784.0 + num_hidden_units)
 W1 = weight_variables(num_hidden_units, 784, variance1)
@@ -120,9 +123,10 @@ for epoch in range(0, epochs):
     b1 += learn_rate * b1_grad
     c1 += learn_rate * c1_grad
 
-# train neural net
+# plot_entropy(train_entropy, valid_entropy, "train", "valid", "(d) entropy.png")
+visualize(10, 10, W1.T, "(d) visualization of parameters.png")
 
-np.random.seed(10807)
+# train neural net
 
 dropout = 0.0
 momentum = 0.0
