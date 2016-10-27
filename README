@@ -5,3 +5,6 @@ c) rbm_sample.py
 d) rbm_pretrain.py
 e) autoencoder.py
 f) denoising_autoencoder.py
+g)
+
+To check one specific question, just run the corresponding file. The code will output images to local disks, and print some info like entropy and error rate.
