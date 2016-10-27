@@ -1,0 +1,7 @@
+One python source file corresponds to one question:
+a) rbm.py
+b) rbm_k.py
+c) rbm_sample.py
+d) rbm_pretrain.py
+e) autoencoder.py
+f) denoising_autoencoder.py
